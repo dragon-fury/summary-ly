@@ -1,0 +1,25 @@
+Abstract 
+We introduce a stochastic graph-based method for computing relative importance of textual units for Natural Language Processing.
+We test the technique on the problem of Text Summarization (TS).
+Salience is typically defined in terms of the presence of particular important words or in terms of similarity to a centroid pseudo-sentence.
+In this model, a connectivity matrix based on intra-sentence cosine similarity is used as the adjacency matrix of the graph representation of sentences.
+Our system, based on LexRank ranked in first place in more than one task in the recent DUC 2004 evaluation.
+In this paper we present a detailed analysis of our approach and apply it to a larger data set including data from earlier DUC evaluations.
+Furthermore, the LexRank with threshold method outperforms the other degree-based techniques including continuous LexRank.
+We also show that our approach is quite insensitive to the noise in the data that may result from an imperfect topical clustering of documents.
+Introduction In recent years, natural language processing (NLP) has moved to a very firm mathematical foundation.
+Many problems in NLP, e.g., parsing (Collins, 1997), word sense disambigua- tion (Yarowsky, 1995), and automatic paraphrasing (Barzilay & Lee, 2003) have benefited significantly by the introduction of robust statistical techniques.
+
+
+
+
+Abstract
+We introduce a stochastic graph-based method for computing relative importance of textual units for Natural Language Processing
+We test the technique on the problem of Text Summarization (TS)
+Extractive TS relies on the concept of sentence salience to identify the most important sentences in a document or set of documents
+We consider a new approach, LexRank, for computing sentence importance based on the concept of eigenvector centrality in a graph representation of sentences
+Our system, based on LexRank ranked in first place in more than one task in the recent DUC 2004 evaluation
+The results show that degree-based methods (including LexRank) outperform both centroid-based methods and other systems participating in DUC in most of the cases
+We also show that our approach is quite insensitive to the noise in the data that may result from an imperfect topical clustering of documents g
+The information content of a summary depends on user’s needs
+In this paper, we focus on multi-document extractive generic text summarization, where the goal is to produce a summary of multiple documents about the same, but unspecified topic

@@ -1,0 +1,55 @@
+Abstract
+We introduce a stochastic graph-based method for computing relative importance of
+textual units for Natural Language Processing. We test the technique on the problem
+of Text Summarization (TS). Extractive TS relies on the concept of sentence salience
+to identify the most important sentences in a document or set of documents. Salience
+is typically defined in terms of the presence of particular important words or in terms
+of similarity to a centroid pseudo-sentence. We consider a new approach, LexRank, for
+computing sentence importance based on the concept of eigenvector centrality in a graph
+representation of sentences. In this model, a connectivity matrix based on intra-sentence
+cosine similarity is used as the adjacency matrix of the graph representation of sentences.
+Our system, based on LexRank ranked in first place in more than one task in the recent
+DUC 2004 evaluation. In this paper we present a detailed analysis of our approach and
+apply it to a larger data set including data from earlier DUC evaluations. We discuss
+several methods to compute centrality using the similarity graph. The results show that
+degree-based methods (including LexRank) outperform both centroid-based methods and
+other systems participating in DUC in most of the cases. Furthermore, the LexRank
+with threshold method outperforms the other degree-based techniques including continuous
+LexRank. We also show that our approach is quite insensitive to the noise in the data that
+may result from an imperfect topical clustering of documents.
+1. Introduction
+In recent years, natural language processing (NLP) has moved to a very firm mathematical
+foundation. Many problems in NLP, e.g., parsing (Collins, 1997), word sense disambigua-
+tion (Yarowsky, 1995), and automatic paraphrasing (Barzilay & Lee, 2003) have benefited
+significantly by the introduction of robust statistical techniques. Recently, robust graph-
+based methods for NLP have also been gaining a lot of interest, e.g., in word clustering
+(Brew & im Walde, 2002) and prepositional phrase attachment (Toutanova, Manning, &
+Ng, 2004).
+In this paper, we will take graph-based methods in NLP one step further. We will
+discuss how random walks on sentence-based graphs can help in text summarization. We
+will also briefly discuss how similar techniques can be applied to other NLP tasks such as
+named entity classification, prepositional phrase attachment, and text classification (e.g.,
+spam recognition).
+
+Text summarization is the process of automatically creating a compressed version of
+a given text that provides useful information for the user. The information content of
+a summary depends on user’s needs. Topic-oriented summaries focus on a user’s topic of
+interest, and extract the information in the text that is related to the specified topic. On the
+other hand, generic summaries try to cover as much of the information content as possible,
+preserving the general topical organization of the original text. In this paper, we focus
+on multi-document extractive generic text summarization, where the goal is to produce a
+summary of multiple documents about the same, but unspecified topic.
+Extractive summarization produces summaries by choosing a subset of the sentences
+in the original document(s). This contrasts with abstractive summarization, where the
+information in the text is rephrased. Although summaries produced by humans are typically
+not extractive, most of the summarization research today is on extractive summarization.
+Purely extractive summaries often give better results compared to automatic abstractive
+summaries. This is due to the fact that the problems in abstractive summarization, such
+as semantic representation, inference and natural language generation, are relatively harder
+compared to a data-driven approach such as sentence extraction. In fact, truly abstractive
+summarization has not reached to a mature stage today. Existing abstractive summarizers
+often depend on an extractive preprocessing component. The output of the extractor is cut
+and pasted, or compressed to produce the abstract of the text . SUMMONS is an example
+of a multi-document summarizer which extracts and combines information from multiple
+sources and passes this information to a language generation component to produce the
+final summary.

@@ -38,25 +38,6 @@ class SentenceScores(object):
 		
 		return words
 
-	# one single array of all sentences
-	def map_word_to_segment(self, sentences):
-		sentence_count = 0
-		self.no_of_sentences = len(sentences)
-		for sentence in sentences:
-			words = self.get_words(sentence)
-			sentence_count += 1
-
-			self.total_no_of_words += len(sentence.split())
-			for word in words:
-				if word not in self.word_frequency_count:
-					self.word_frequency_count[word] = 0
-				self.word_frequency_count[word] += 1
-		
-				if word not in self.word_sentence_frequency:
-					self.word_sentence_frequency[word] = set()
-				self.word_sentence_frequency[word].add(sentence_count)
-
-
 	def calculate_tf_scores(self, sentences):
 		words = self.get_words(sentences)
 		word_count_map = map(Counter, words)
@@ -99,7 +80,7 @@ class SentenceScores(object):
 
 		numerator = 0.0
 		denominator = 1.0
-		if sentence2_denom > 0 and sentence1_denom > 0:
+		if sentence1_denom > 0 and sentence2_denom > 0:
 			numerator = sum(map((lambda word: sentence1_tf[word]*sentence2_tf[word]*pow(self.idf_word_scores[word], 2)) , common_words))
 			denominator = sqrt(sentence1_denom) * sqrt(sentence2_denom)
 
@@ -111,14 +92,18 @@ class SentenceScores(object):
 		degree_vector = numpy.zeros((size, ))
 		sentences_with_tf = zip(sentences, self.sentence_tf_scores)
 
-		for row, (sentence1, sentence1_tf) in enumerate(sentences_with_tf):
-			sentence1_words = self.get_words([sentence1])
-			for col, (sentence2, sentence2_tf) in enumerate(sentences_with_tf):
+		for row in range(0, len(sentences)):
+			sentence_tf_tuple1 = sentences_with_tf[row]
+			sentence1_words = self.get_words([sentence_tf_tuple1[0]])
+			for col in range(0, len(sentences)):
 				if row == col:
-					cosine_matrix[row][col] = 1
-					break
-				sentence2_words = self.get_words([sentence2])
-				cosine_matrix[row][col] = self.calculate_idf_cosine(frozenset(sentence1_words[0]), frozenset(sentence2_words[0]), sentence1_tf, sentence2_tf)
+					cosine_matrix[row][col] = 0.
+				elif row > col:
+					cosine_matrix[row][col] = cosine_matrix[col][row]
+				else:
+					sentence_tf_tuple2 = sentences_with_tf[col]
+					sentence2_words = self.get_words([sentence_tf_tuple2[0]])
+					cosine_matrix[row][col] = self.calculate_idf_cosine(frozenset(sentence1_words[0]), frozenset(sentence2_words[0]), sentence_tf_tuple1[1], sentence_tf_tuple2[1])
 
 		row_sums = cosine_matrix.sum(axis=1)
 		stochastic_cosine_matrix = cosine_matrix / row_sums[:, numpy.newaxis]
@@ -132,14 +117,18 @@ class SentenceScores(object):
 
 
 	def get_summary_lines(self, sentences):
-		with open("/home/sesha/Subjects/Summer2K15/UN/summary-ly/stopwords-english.txt") as stopwordsfile:
+		with open("stopwords-english.txt") as stopwordsfile:
 			self.stopwordslist.append(stopwordsfile.readlines())
 
 		self.calculate_tf_scores(sentences)
 		self.calculate_idf_scores(sentences)
-		stochastic_cosine_matrix = self.create_similarity_matrix(sentences)
-		sentences_eigen_values = self.lexrank_power_iteration(stochastic_cosine_matrix, len(sentences), 0.1)
+		self.stochastic_cosine_matrix = self.create_similarity_matrix(sentences)
+		sentences_eigen_values = self.lexrank_power_iteration(self.stochastic_cosine_matrix, len(sentences), 0.1)
 		sentence_by_importance = sorted(sentences_eigen_values.items() ,key=operator.itemgetter(1))
+		data = zip(*numpy.histogram(self.stochastic_cosine_matrix))
+		with open("tr.txt", "w+") as stopwordsfile:
+			numpy.savetxt(stopwordsfile, data, delimiter=",")
+			# numpy.savetxt(stopwordsfile, self.stochastic_cosine_matrix)
 		# return [sentences.index(sentence_score) for sentence_score in sentences_eigen_values]# if score_for_sentence > 0.12]
 		sentence_by_importance.reverse()
 		return sentence_by_importance

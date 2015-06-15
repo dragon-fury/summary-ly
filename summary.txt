@@ -1,0 +1,22 @@
+5,    Keywords: indexing, sequencing, parser, java programming   1 Introduction  One of the oldest functions performed by adaptive educational systems is guiding   students to most appropriate educational problems at any time of their learning pro-  cess
+8, The intelligent decision mechanism behind these approaches is typically based   on a domain model that decomposes the domain into a set of knowledge units
+10, Considering the learning goal and the current state of   student knowledge reflected by the student model, various sequencing approaches are   able to determine which task is currently the most appropriate.  An important aspect of this decision process is the granularity of the domain model   and the related granularity of task indexing
+11, In general, the finer are the elements of   the domain model and the more precise is task indexing, the better precision could be   potentially offered by the sequencing algorithm in determining the best task to solve.  However, fine-grained domain models that dissect a domain into many dozens to   many hundreds of knowledge units are much harder to develop and to use for index-  ing
+14, In particular, this approach is used by the ma-  jority of adaptive systems in the area of programming [2; 4; 5; 7].  Our past experience with adaptive hypermedia systems for programming [2; 4]   demonstrated that adaptive navigation support based on coarse grain problem index-  ing is surprisingly effective way to guide students over their coursework, yet it   doesn’t work well in special cases such as remediation or exam preparation
+16, In this situation only a fine-grain indexing and sequencing is able to   suggest learning tasks that can address these gaps and misconceptions.  To demonstrate the importance of fine-grained indexing, we can look at an exam-  ple of a system called Knowledge Maximizer [3] that uses fine-grain concept-level  problem indexing to identify gaps in user knowledge for exam preparation
+19, 1   represents the Knowledge Maximizer interface
+21, User can navigate the ranked list of questions using navigation buttons at   the top
+26, 1
+27, The Knowledge Maximizer interface.  The problem with finer-grain indexing, such as used by the Knowledge Maximizer   is the high cost of indexing
+31, This approach is presented in   the following section.  Navigation Buttons  Knowledge Level Question Concept  Question Area  ��    2 Java Parser   Java parser is a tool that we developed to index Java programs with concepts of Java   ontology developed by our group (http://www.sis.pitt.edu/~paws/ont/java.owl)
+32, This   tool provides the user with semi-automated indexing support during developing new   learning materials for the Java Programming Language course
+34, This framework generates an  Abstract Syntax Tree (AST) that entirely represents the program source
+36, 2 shows structural properties for the following method declaration:  public void start(BundleContext context) throws Exception {    super.start(context);   }     Fig
+37, 2
+38, Structural properties of a method declaration  Table 1
+39, Sample of JavaParser output  Source Output  public void   start(BundleContext context)   throws Exception {  super.start(context);  }  Super Method Invocation,  Public Method Declaration,   Exception,   Formal Method Parameter,   Single Variable Declaration,  Void  After building the tree using Eclipse AST API, the parser performs a semantic ana-  lyzed using the information in each node
+48, Results show that proposed automatic indexing tool can offer the   quality of indexing that is comparable with manual indexing by expert for a fraction   of its cost
+50, Brusilovsky, P.: A framework for intelligent knowledge sequencing and task   sequencing
+52, of Second International Conference on Intelligent Tutoring   Systems, ITS'92
+55, New Review of Hypermedia and Multimedia   15, 1 (2009) 97-118  3
+56, Hosseini, R., Brusilovsky, P., Guerra, J.: Knowledge Maximizer: Concept-based   Adaptive Problem Sequencing for Exam Preparation
